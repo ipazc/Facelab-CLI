@@ -17,6 +17,7 @@
 #define DEFAULT_AGE_ESTIMATION_SERVICE_SECTION "AgeEstimator"
 #define DEFAULT_GENDER_ESTIMATION_SERVICE_SECTION "GenderEstimator"
 
+#define DEFAULT_BINDED_DIR "/media"
 
 using namespace std;
 
