@@ -5,7 +5,6 @@
 #include "src/service_client/FaceAgeGenderStackServiceClient.hpp"
 #include "src/result_adapter/FaceResultAdapter.hpp"
 #include "src/exceptions/AnalysisErrorException.hpp"
-#include "src/input_adapter/InputAdapter.hpp"
 
 using namespace std;
 namespace po = boost::program_options;
@@ -77,15 +76,12 @@ int main(int argc, char** argv) {
         faceAgeGenderStackServiceClient.setEstimateGender(estimateGender);
         faceAgeGenderStackServiceClient.setLimitFaces(limitFaces);
         faceAgeGenderStackServiceClient.setBoundingBoxExpansion(bboxExpansion);
-        InputAdapter inputAdapter;
 
 
         // Since multiple files may be the input, we are going to analyze them all.
         for (std::vector<string>::iterator it = inputFiles.begin() ; it != inputFiles.end(); ++it)
         {
-            string uri = *it;
-            string adaptedURI = inputAdapter.adaptURI(uri);
-            json result = faceAgeGenderStackServiceClient.analyzeUri(adaptedURI);
+            json result = faceAgeGenderStackServiceClient.analyzeUri(*it);
             FaceResultAdapter faceResultAdapter(result);
             cout << faceResultAdapter.toString() << endl;
         }
