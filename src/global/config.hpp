@@ -10,6 +10,8 @@
 #include "../../libs/simpleini.hpp"
 #include "host.hpp"
 
+#define VERSION "1.1.0"
+#define BUILD_DATE "18 Jul 2016"
 #define CONFIG_FILE "/etc/varpcore/facelab.conf"
 
 #define DEFAULT_STACK_SERVICE_SECTION "FullStackService"

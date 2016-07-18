@@ -1,3 +1,3 @@
 Packages:
-    -libboost-program-options-dev=1.58.0
-
+    -libboost-program-options-dev
+    -libzmq3-dev

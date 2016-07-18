@@ -24,7 +24,7 @@ int main(int argc, char** argv) {
                 ("help,h",     "Show this help message and exit.")
                 ("version,v",     "Show program's version number and exit.")
                 ("estimate-age,a",   po::bool_switch(&estimateAge)->default_value(false),      "Estimate the age.")
-                ("estimate-gender,g",   po::bool_switch(&estimateAge)->default_value(false),      "Estimate the gender.")
+                ("estimate-gender,g",   po::bool_switch(&estimateGender)->default_value(false),      "Estimate the gender.")
                 ("limit-faces,l",   po::value<int>(&limitFaces)->default_value(PARAMETER_UNSET),             "Sets a limit in age/gender estimation. When this limit\n"
                         "is reached, no age/gender estimation algorithms are\n"
                         "applied. By default there is a limit of 3 faces.")
@@ -45,16 +45,22 @@ int main(int argc, char** argv) {
 
         if (vm.count("help"))
         {
-            std::cout << desc << "\n";
+            std::cout << desc << endl;
+            return 0;
+        }
+
+        if (vm.count("version"))
+        {
+            std::cout << VERSION << " " << BUILD_DATE << endl;
             return 0;
         }
 
         if (!vm.count("input-file"))
         {
-            std::cout << "Error: no input file/s specified.";
-            //std::cout << desc << "\n";
+            std::cout << "Error: no input file/s specified." << endl;
             return 0;
         }
+
         // There must be an easy way to handle the relationship between the
         // option "help" and "host"-"port"-"config"
         // Yes, the magic is putting the po::notify after "help" option check

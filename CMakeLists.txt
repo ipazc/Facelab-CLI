@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.12.2)
-project(FaceLab)
+project(facelab_analyze)
 
 #----------------------------CMAKE & GLOBAL PROPERTIES-------------------------#
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -32,9 +32,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-stack-protector")
 set(SOURCE_FILES main.cpp src/service_client/ServiceClient.cpp src/service_client/ServiceClient.hpp src/service_client/FaceAgeGenderStackServiceClient.cpp src/service_client/FaceAgeGenderStackServiceClient.hpp src/global/config.hpp libs/simpleini.hpp src/global/config.cpp src/global/config.hpp src/global/host.hpp src/exceptions/ConfigException.hpp libs/ConvertUTF.hpp libs/ConvertUTF.cpp src/result_adapter/Face.cpp src/result_adapter/Face.hpp src/result_adapter/FaceResultAdapter.cpp src/result_adapter/FaceResultAdapter.hpp src/exceptions/AnalysisErrorException.hpp src/input_adapter/InputAdapter.cpp src/input_adapter/InputAdapter.hpp)
 set_source_files_properties(main.cpp PROPERTIES LANGUAGE CXX )
 
-add_executable(FaceLab ${SOURCE_FILES})
+add_executable(facelab_analyze ${SOURCE_FILES})
 
-target_link_libraries( FaceLab
+target_link_libraries( facelab_analyze
         ${LIBZMQ_LIBRARIES}
         ${Boost_LIBRARIES}
 )
