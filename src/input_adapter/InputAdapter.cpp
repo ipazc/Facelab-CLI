@@ -5,9 +5,14 @@
 #include <string.h>
 #include <stdlib.h>
 #include "InputAdapter.hpp"
+#include "../exceptions/FileNotFoundException.hpp"
 
 string InputAdapter::adaptURI(string URI) {
     char *realPath = realpath(URI.c_str(), NULL);
+
+    if (!realPath)
+        throw FileNotFoundException(URI + ": " + string(strerror(errno)));
+
     string strRealPath = string(realPath, strlen(realPath));
     free(realPath);
 
@@ -22,7 +27,6 @@ string InputAdapter::appendPaths(string path1, string path2) {
     separator = '\\';
 #endif
 
-    cout << result << endl;
     if (path1[path1.length()-1] != separator
         && path2[0] != separator)
         result += separator;

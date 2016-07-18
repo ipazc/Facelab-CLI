@@ -11,7 +11,7 @@ FaceResultAdapter::FaceResultAdapter(json response) {
     if (response.count("error") > 0)
     {
         string error = response["error"];
-        throw new AnalysisErrorException(error);
+        throw AnalysisErrorException(error);
     }
     json output = response["output"];
 

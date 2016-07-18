@@ -51,7 +51,8 @@ int main(int argc, char** argv) {
 
         if (!vm.count("input-file"))
         {
-            std::cout << desc << "\n";
+            std::cout << "Error: no input file/s specified.";
+            //std::cout << desc << "\n";
             return 0;
         }
         // There must be an easy way to handle the relationship between the
@@ -59,10 +60,7 @@ int main(int argc, char** argv) {
         // Yes, the magic is putting the po::notify after "help" option check
         po::notify(vm);
 
-
         HOST host = Config::getInstance().getHost(DEFAULT_STACK_SERVICE_SECTION);
-
-        InputAdapter inputAdapter;
 
         vector<string> inputFiles = vm["input-file"].as< vector<string> >();
 
@@ -73,11 +71,14 @@ int main(int argc, char** argv) {
         faceAgeGenderStackServiceClient.setEstimateGender(estimateGender);
         faceAgeGenderStackServiceClient.setLimitFaces(limitFaces);
         faceAgeGenderStackServiceClient.setBoundingBoxExpansion(bboxExpansion);
+        InputAdapter inputAdapter;
+
 
         // Since multiple files may be the input, we are going to analyze them all.
         for (std::vector<string>::iterator it = inputFiles.begin() ; it != inputFiles.end(); ++it)
         {
-            string adaptedURI = inputAdapter.adaptURI(*it);
+            string uri = *it;
+            string adaptedURI = inputAdapter.adaptURI(uri);
             json result = faceAgeGenderStackServiceClient.analyzeUri(adaptedURI);
             FaceResultAdapter faceResultAdapter(result);
             cout << faceResultAdapter.toString() << endl;
@@ -90,6 +91,10 @@ int main(int argc, char** argv) {
     catch (AnalysisErrorException* analysisErrorException)
     {
         cerr << "Error: " << analysisErrorException->what() << endl;
+    }
+    catch (boost::exception_detail::clone_impl<boost::exception_detail::error_info_injector<boost::program_options::invalid_command_line_syntax> > exception)
+    {
+        cerr << "Error: " << "Required argument is missing!" << endl;
     }
 
     return 0;

@@ -5,8 +5,9 @@
 #ifndef FACELAB_INPUTADAPTER_H
 #define FACELAB_INPUTADAPTER_H
 
-#include "../global/config.hpp"
 #include <iostream>
+#include <errno.h>
+#include "../global/config.hpp"
 
 using namespace std;
 

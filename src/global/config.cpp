@@ -11,7 +11,7 @@ Config::Config()
     SI_Error rc = ini.LoadFile(CONFIG_FILE);
 
     if (rc < 0)
-        throw new ConfigException("Config file could not be accessed.");
+        throw ConfigException("Config file could not be accessed.");
 }
 
 HOST Config::getHost(string section) {
