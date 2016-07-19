@@ -86,18 +86,19 @@ int main(int argc, char** argv) {
             cout << faceResultAdapter.toString() << endl;
         }
     }
-    catch (ConfigException* configException)
+    catch (ConfigException configException)
     {
-        cerr << "Error: " << configException->what() << endl;
+        cerr << "Error: " << configException.what() << endl;
     }
-    catch (AnalysisErrorException* analysisErrorException)
+    catch (AnalysisErrorException analysisErrorException)
     {
-        cerr << "Error: " << analysisErrorException->what() << endl;
+        cerr << "Error: " << analysisErrorException.what() << endl;
     }
     catch (boost::exception_detail::clone_impl<boost::exception_detail::error_info_injector<boost::program_options::invalid_command_line_syntax> > exception)
     {
         cerr << "Error: " << "Required argument is missing!" << endl;
     }
 
+    cout << "Exiting." << endl;
     return 0;
 }
