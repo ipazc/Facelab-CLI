@@ -11,7 +11,7 @@ The following packages are needed:
 # Compilation
 
 ```
-sudo apt-get update && sudo apt-get install build-essential libzmq3-dev libboost-program-options-dev
+sudo apt-get update && sudo apt-get install build-essential libzmq3-dev libboost-program-options-dev git
 cd /tmp && git clone https://gitlab.com/varpsec/FaceLab.git && cd FaceLab
 mkdir build && cd build
 cmake ..
