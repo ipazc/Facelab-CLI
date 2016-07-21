@@ -98,6 +98,6 @@ int main(int argc, char** argv) {
     {
         cerr << "Error: " << "Required argument is missing!" << endl;
     }
-    
+
     return 0;
 }

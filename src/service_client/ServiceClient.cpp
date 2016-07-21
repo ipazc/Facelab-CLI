@@ -12,7 +12,8 @@ json ServiceClient::send_request(json &json_request)
     zmq::context_t context(1);
     zmq::socket_t worker(context, ZMQ_DEALER);
 
-    s_set_id(worker);
+    string id = to_string(::getpid());
+    worker.setsockopt(ZMQ_IDENTITY, id.c_str(), id.length());
 
     worker.connect(this->address.c_str());
 
