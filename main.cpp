@@ -98,7 +98,6 @@ int main(int argc, char** argv) {
     {
         cerr << "Error: " << "Required argument is missing!" << endl;
     }
-
-    cout << "Exiting." << endl;
+    
     return 0;
 }
