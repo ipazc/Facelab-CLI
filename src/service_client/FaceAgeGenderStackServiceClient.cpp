@@ -29,9 +29,13 @@ json FaceAgeGenderStackServiceClient::buildRequest(string URI) {
     if (this->estimateGender)
         request["estimate_gender"] = this->estimateGender;
 
-    HOST faceHost = Config::getInstance().getHost(DEFAULT_FACE_DETECTION_SERVICE_SECTION);
-    HOST ageHost = Config::getInstance().getHost(DEFAULT_AGE_ESTIMATION_SERVICE_SECTION);
-    HOST genderHost = Config::getInstance().getHost(DEFAULT_GENDER_ESTIMATION_SERVICE_SECTION);
+    string faceDetectionSection = Config::getInstance().getFaceDetectorSectionName();
+    string ageEstimationSection = Config::getInstance().getAgeEstimatorSectionName();
+    string genderEstimationSection = Config::getInstance().getGenderEstimatorSectionName();
+
+    HOST faceHost = Config::getInstance().getHost(faceDetectionSection);
+    HOST ageHost = Config::getInstance().getHost(ageEstimationSection);
+    HOST genderHost = Config::getInstance().getHost(genderEstimationSection);
 
     request["face_detector"] = {{"host", faceHost.ip}, {"port", faceHost.port}};
     request["age_estimator"] = {{"host", ageHost.ip}, {"port", ageHost.port}};

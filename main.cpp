@@ -15,6 +15,10 @@ int main(int argc, char** argv) {
     {
         bool estimateAge = false;
         bool estimateGender = false;
+        bool weakDetector = false;
+        bool strongDetector = false;
+        bool gpuProcessor = false;
+        bool cpuProcessor = false;
         int limitFaces = PARAMETER_UNSET;
         float bboxExpansion = PARAMETER_UNSET;
 
@@ -24,6 +28,10 @@ int main(int argc, char** argv) {
                 ("version,v",     "Show program's version number and exit.")
                 ("estimate-age,a",   po::bool_switch(&estimateAge)->default_value(false),      "Estimate the age.")
                 ("estimate-gender,g",   po::bool_switch(&estimateGender)->default_value(false),      "Estimate the gender.")
+                ("weak,w",   po::bool_switch(&weakDetector)->default_value(false),      "Works with the weak version of the detectors if available.")
+                ("strong,s",   po::bool_switch(&strongDetector)->default_value(false),      "Works with the strong version of the detectors if available.")
+                ("cpu,c",   po::bool_switch(&cpuProcessor)->default_value(false),      "Works with the CPU version of the detectors if available. Can be combined with weak/strong flags.")
+                ("gpu,p",   po::bool_switch(&gpuProcessor)->default_value(false),      "Works with the GPU version of the detectors if available. Can be combined with weak/strong flags.")
                 ("limit-faces,l",   po::value<int>(&limitFaces)->default_value(PARAMETER_UNSET),             "Sets a limit in age/gender estimation. When this limit\n"
                         "is reached, no age/gender estimation algorithms are\n"
                         "applied. By default there is a limit of 3 faces.")
@@ -40,7 +48,6 @@ int main(int argc, char** argv) {
         po::variables_map vm;
         po::store(po::command_line_parser(argc, argv).
                 options(desc).positional(p).run(), vm);
-
 
         if (vm.count("help"))
         {
@@ -64,6 +71,20 @@ int main(int argc, char** argv) {
         // option "help" and "host"-"port"-"config"
         // Yes, the magic is putting the po::notify after "help" option check
         po::notify(vm);
+
+        if (weakDetector)
+            Config::getInstance().setDetectorType(WEAK);
+
+        else if (strongDetector)
+            Config::getInstance().setDetectorType(STRONG);
+
+        else
+            Config::getInstance().setDetectorType(DEFAULT);
+
+        if (cpuProcessor)
+            Config::getInstance().setProcessor(CPU);
+        else if (gpuProcessor)
+            Config::getInstance().setProcessor(GPU);
 
         HOST host = Config::getInstance().getHost(DEFAULT_STACK_SERVICE_SECTION);
 

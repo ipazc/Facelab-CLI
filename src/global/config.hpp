@@ -11,17 +11,28 @@
 #include "host.hpp"
 
 #define VERSION "1.1.0"
-#define BUILD_DATE "18 Jul 2016"
+#define BUILD_DATE "17 Aug 2016"
 #define CONFIG_FILE "/etc/varpcore/facelab.conf"
 
 #define DEFAULT_STACK_SERVICE_SECTION "FullStackService"
-#define DEFAULT_FACE_DETECTION_SERVICE_SECTION "FaceDetector"
-#define DEFAULT_AGE_ESTIMATION_SERVICE_SECTION "AgeEstimator"
-#define DEFAULT_GENDER_ESTIMATION_SERVICE_SECTION "GenderEstimator"
+#define DEFAULT_SUBSYSTEM_SECTION "SubsystemServices"
 
-#define DEFAULT_BINDED_DIR "/media"
 
 using namespace std;
+
+enum DETECTOR_TYPE
+{
+    DEFAULT = 0,
+    WEAK = 1,
+    STRONG = 2,
+};
+
+enum DETECTOR_PROCESSOR
+{
+    UNKNOWN = 0,
+    CPU = 1,
+    GPU = 2,
+};
 
 class Config
 {
@@ -49,6 +60,19 @@ private:
     // =======
     // We can use the better technique of deleting the methods
     // we don't want.
+
+    DETECTOR_TYPE detectorType = DEFAULT;
+    DETECTOR_PROCESSOR detectorProcessor = UNKNOWN;
+
+    /**
+     * Returns the detector type as a string.
+     */
+    string getDetectorTypeAsString(DETECTOR_TYPE detector_type);
+
+    /**
+     * Returns the detector processor as a string.
+     */
+    string getDetectorProcessorAsString(DETECTOR_PROCESSOR detector_processor);
 public:
     Config(Config const&)               = delete;
     void operator=(Config const&)       = delete;
@@ -67,6 +91,36 @@ public:
      * Config file should be located under /etc/varpcore/
      */
     HOST getHost(string section);
+
+    /**
+     * Gets the face detector section name for the desired detector type.
+     */
+    string getFaceDetectorSectionName();
+
+    /**
+     * Gets the age estimator section name for the desired detector type.
+     */
+    string getAgeEstimatorSectionName();
+
+    /**
+     * Gets the gender estimator section name for the desired detector type.
+     */
+    string getGenderEstimatorSectionName();
+
+    /**
+     * Sets the detector type in order to get the appropriate section when requested.
+     */
+    void setDetectorType(DETECTOR_TYPE detectorType);
+
+    /**
+     * Sets the processor for the detectors (CPU or GPU)
+     */
+    void setProcessor(DETECTOR_PROCESSOR processor);
+
+    /**
+     * Returns the processor that must be used for the service.
+     */
+    DETECTOR_PROCESSOR getDetectorProcessor();
 };
 
 #endif //FACELAB_CONFIG_H
